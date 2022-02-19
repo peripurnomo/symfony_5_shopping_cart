@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+        {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+    </head>
+    <body>
+        {% block header %}
+            <header class="navbar-dark bg-dark">
+              <nav class="container navbar navbar-expand-lg">
+                <a class="navbar-brand text-primary" href="#">Buggy Cart</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a href="{{ path('app_products') }}" class="nav-link">Products</a>
+                      <a href="{{ path('app_cart') }}" class="nav-link">Cart</a>
+                  </div>
+                </div>
+              </nav>
+            </header>
+        {% endblock %}
+
+        {% block notification %}
+            {% for label, messages in app.flashes(['success', 'warning']) %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }} text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+
+        <main class="container my-4">{% block body %}{% endblock %}</main>
+        </script>
+    </body>
+</html>

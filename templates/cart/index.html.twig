@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ __app_name__ }} - Cart{% endblock %}
+{% block body %}
+    {% if cart.items.count > 0 %}
+        <h1 class="h3 my-4">Shopping Cart</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table bg-light rounded table-borderless border shadow">
+                    <thead class="border">
+                        <tr>
+                          <th class="font-weight-normal" scope="col">#</th>
+                          <th class="font-weight-normal" scope="col">Name</th>
+                          <th class="font-weight-normal" scope="col">Price</th>
+                          <th class="font-weight-normal" scope="col">Quantity</th>
+                          <th class="font-weight-normal" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    {{ form_start(form) }}
+                        {% for item in form.items %}
+                            <tbody>
+                                <tr>
+                                    <td><img src="https://picsum.photos/id/119/200/150" width="64" alt="Product image"></td>
+                                    <th><a href="{{ path('app_product_show', {'id': item.vars.data.product.id}) }}">{{ item.vars.data.product.name }}</a></th>
+                                    <td>$ {{ item.vars.data.product.price }}</td>
+                                    <td>
+                                        {{ form_widget(item.quantity, {
+                                            'attr': {
+                                                'class': 'form-control form-control-sm quantity-input' ~ (item.quantity.vars.valid ? '' : 'is-invalid'),
+                                            }
+                                        }) }}
+
+                                        <div class="invalid-feedback">
+                                            {{ form_errors(item.quantity) }}
+                                        </div>
+                                    </td>
+                                    <td>{{ form_widget(item.remove, {'attr': {'class': 'btn btn-danger btn-sm'}}) }}</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+
+                    <div class="float-right">
+                        {{ form_widget(form.saveCart) }}
+                        {{ form_widget(form.clearCart) }}
+                    </div>
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+
+            <div class="col-md-4">
+                <div class="p-3 bg-light rounded border shadow">
+                    <h5>Cart Total</h5>
+                    
+                    <hr class="my-4">
+                    
+                    <p>Subtotal <span class="float-right">$ {{ cart.total }}</span></p>
+                    <p>Delivery <span class="float-right">*free</span></p>
+                    <p>Total <span class="float-right">$ {{ cart.total }}</span></p>
+                    
+                    <hr class="my-4">
+
+                    <a href="#" class="btn btn-warning w-100">Checkout</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+{% endblock %}
